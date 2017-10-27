@@ -1,0 +1,71 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>WebSocket Chat</title>
+    <script type="text/javascript" src="Scripts/jquery-2.0.2.js"></script>
+    <script type="text/javascript">
+        var ws;
+
+        function on(action, data) {
+            if (action == "new message") {
+                $("#chats").prepend("<li>" + data + "</li>");
+            } else {
+                alert("action not implemented");
+            }
+        }
+
+        function wshandler(data) {
+            on(data["action"], data["data"]);
+        }
+
+        var namespace = "/MSWSChat/MSWSChatHandler.ashx";
+
+        function connect() {
+            $("#spanStatus").text("connecting");
+            ws = new WebSocket("ws://" + document.domain + ":" + location.port + namespace);
+            ws.onopen = function () {
+                $("#spanStatus").text("connected");
+            };
+            ws.onmessage = function (evt) {                
+                wshandler(eval("(" + evt.data + ")"));                
+            };
+            ws.onerror = function (evt) {
+                $("#spanStatus").text(evt.message);
+            };
+            ws.onclose = function () {
+                $("#spanStatus").text("disconnected");
+            };
+        }
+        $().ready(function () {
+            connect();
+            
+            $("#btnSend").click(function () {
+                if (ws.readyState == WebSocket.OPEN) {
+                    var data = { username: $("#username").val(), message: $("#textInput").val() };
+                    var action = "new message";
+                    var payload = { "action": action, "data": data};
+                    ws.send(JSON.stringify(payload));
+                    $("#textInput").val("");
+                }
+                else {
+                    $("#spanStatus").text("Connection is closed");
+                }
+            });
+            $("#btnDisconnect").click(function () {
+                ws.close();
+            });
+        });
+    </script>
+</head>
+<body>
+    <input type="button" value="Connect" id="btnConnect" /><input type="button" value="Disconnect" id="btnDisconnect" /><br />
+    <label>USER: <input type="text" id="username" /></label>       
+    <label>MESSAGE: <input type="text" id="textInput" /></label>
+    <input type="button" value="Send" id="btnSend" /><br />
+    <span id="spanStatus">(display)</span>
+    <ul id="chats">
+        
+    </ul>
+    
+</body>
+</html>

@@ -1,0 +1,7 @@
+H:\local\var\www\dotnet\MSWSChat\MSWSChat\bin\MSWSChat.dll.config
+H:\local\var\www\dotnet\MSWSChat\MSWSChat\bin\MSWSChat.dll
+H:\local\var\www\dotnet\MSWSChat\MSWSChat\bin\MSWSChat.pdb
+H:\local\var\www\dotnet\MSWSChat\MSWSChat\bin\Microsoft.WebSockets.dll
+H:\local\var\www\dotnet\MSWSChat\MSWSChat\obj\Debug\MSWSChat.csprojResolveAssemblyReference.cache
+H:\local\var\www\dotnet\MSWSChat\MSWSChat\obj\Debug\MSWSChat.dll
+H:\local\var\www\dotnet\MSWSChat\MSWSChat\obj\Debug\MSWSChat.pdb
